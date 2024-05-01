@@ -8,7 +8,7 @@ const success = (statuscode, result) => {
 
 const error = (statuscode, message) => {
   return {
-    status: "ok",
+    status: "error",
     statuscode,
     message,
   };
