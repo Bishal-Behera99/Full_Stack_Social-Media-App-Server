@@ -79,9 +79,13 @@ const refreshController = async (req, res) => {
     const cookies = req.cookies;
 
     if (!cookies.jwt) {
-      return res.send(error(401, "refreshToken Is Required"));
+      return res.send(error(401, "refreshToken in Cookie is Required"));
     }
+    const refreshtoken = cookies.jwt;
 
+    if (!refreshtoken) {
+      return res.send(error(401, "RefreshToken is required"));
+    }
     const decoded = jwt.verify(refreshtoken, process.env.REFRESH_TOKEN_KEY);
 
     const _id = decoded._id;
