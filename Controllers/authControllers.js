@@ -61,7 +61,12 @@ const loginController = async (req, res) => {
     const accesstoken = generateaccessToken({ _id: olduser._id });
     const refreshtoken = generaterefreshToken({ _id: olduser._id });
 
-    return res.send(success(200, { accesstoken, refreshtoken }));
+    res.cookie("jwt", refreshtoken, {
+      // Frontend cannot access the cookie
+      httpOnly: true,
+      secure: true,
+    });
+    return res.send(success(200, { accesstoken }));
   } catch (e) {
     return res.send(error(500, e.message));
   }
@@ -71,9 +76,9 @@ const loginController = async (req, res) => {
 
 const refreshController = async (req, res) => {
   try {
-    const { refreshtoken } = req.body;
+    const cookies = req.cookies;
 
-    if (!refreshtoken) {
+    if (!cookies.jwt) {
       return res.send(error(401, "refreshToken Is Required"));
     }
 
