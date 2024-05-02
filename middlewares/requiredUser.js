@@ -16,8 +16,6 @@ module.exports = async (req, res, next) => {
 
     req._id = decoded._id;
 
-    console.log(req._id);
-
     next();
   } catch (e) {
     return res.send(error(500, e.message));
