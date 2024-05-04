@@ -5,6 +5,7 @@ const authrouter = require("./routers/authrouter");
 const postrouter = require("./routers/postRouter");
 const morgan = require("morgan");
 const cookieParser = require("cookie-parser");
+const cors = require("cors");
 const app = express();
 dotenv.config("./.env");
 
@@ -12,6 +13,12 @@ dotenv.config("./.env");
 app.use(express.json());
 app.use(morgan("common"));
 app.use(cookieParser());
+app.use(
+  cors({
+    credentials: true,
+    origin: "http://localhost:3000",
+  })
+);
 
 // Creating an end point JTC
 app.get("/", (req, res) => {

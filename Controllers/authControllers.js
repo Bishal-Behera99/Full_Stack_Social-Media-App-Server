@@ -90,11 +90,13 @@ const refreshController = async (req, res) => {
 
     const _id = decoded._id;
 
-    const newaccesstoken = generateaccessToken({ _id });
+    const accesstoken = generateaccessToken({ _id });
 
-    return res.send(success(201, { newaccesstoken }));
+    return res.send(success(201, { accesstoken }));
   } catch (e) {
-    return res.send(error(500, e.message));
+    return res.send(
+      error(401, "Invalid refresh token or Refresh Token is expired")
+    );
   }
 };
 

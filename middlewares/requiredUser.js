@@ -18,6 +18,6 @@ module.exports = async (req, res, next) => {
 
     next();
   } catch (e) {
-    return res.send(error(500, e.message));
+    return res.send(error(401, "Invalid Access Key"));
   }
 };
