@@ -81,9 +81,32 @@ const updatePostController = async (req, res) => {
   }
 };
 
+const deletepostController = async (req, res) => {
+  try {
+    const { postId } = req.body;
+
+    const curr = req._id;
+    const post = await Post.findById(postId);
+    const curruser = await User.findById(curr);
+    if (post.owner.toString() !== curr) {
+      return res.send(error(403, "You cannot deletesomeone else post"));
+    }
+
+    const index = curruser.posts.indexOf(postId);
+    await curruser.posts.splice(index, 1);
+    await curruser.save();
+    await post.remove();
+
+    return res.send(success(200, "Post Deleted Successfully"));
+  } catch (e) {
+    return res.send(error(500, e.message));
+  }
+};
+
 module.exports = {
   getMyPostsController,
   createPostController,
   likeunlikeController,
   updatePostController,
+  deletepostController,
 };

@@ -11,5 +11,8 @@ router.post(
   requiredUser,
   usercontroller.getPostOfFollowing
 );
+router.get("/myposts", requiredUser, usercontroller.getmypostControler);
+
+router.post("/deleteuser", usercontroller.deleteMyProfileController);
 
 module.exports = router;
