@@ -104,7 +104,7 @@ const refreshController = async (req, res) => {
 function generateaccessToken(data) {
   try {
     const token = jwt.sign(data, process.env.ACCESS_TOKEN_KEY, {
-      expiresIn: "15m",
+      expiresIn: "1d",
     });
     return token;
   } catch (e) {
@@ -123,8 +123,21 @@ function generaterefreshToken(data) {
   }
 }
 
+const logoutController = async (req, res) => {
+  try {
+    res.clear("jwt", {
+      httpOnly: true,
+      secure: true,
+    });
+    res.send(success(200, "User Logout"));
+  } catch (e) {
+    return res.send(error(500, e.message));
+  }
+};
+
 module.exports = {
   signupController,
   loginController,
   refreshController,
+  logoutController,
 };

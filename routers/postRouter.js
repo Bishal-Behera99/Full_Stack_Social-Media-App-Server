@@ -6,5 +6,6 @@ const router = require("express").Router();
 // module.exports = router;
 
 router.post("/", requiredUser, postController.createPostController);
-
+router.post("/likeunlike", requiredUser, postController.likeunlikeController);
+router.post("/updatepost", requiredUser, postController.updatePostController);
 module.exports = router;

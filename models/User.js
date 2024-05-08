@@ -24,15 +24,19 @@ const userSchema = mongoose.Schema(
       url: String,
     },
 
-    followers: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "user3",
-    },
+    followers: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "user3",
+      },
+    ],
 
-    following: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "user3",
-    },
+    followings: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "user3",
+      },
+    ],
     posts: [
       {
         type: mongoose.Schema.Types.ObjectId,

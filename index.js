@@ -3,6 +3,7 @@ const dotenv = require("dotenv");
 const dbconnect = require("./dbconnect");
 const authrouter = require("./routers/authrouter");
 const postrouter = require("./routers/postRouter");
+const userrouter = require("./routers/userRouter");
 const morgan = require("morgan");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
@@ -28,6 +29,7 @@ app.get("/", (req, res) => {
 // Routers
 app.use("/auth", authrouter);
 app.use("/post", postrouter);
+app.use("/user", userrouter);
 const PORT = process.env.PORT || 4002;
 dbconnect();
 app.listen(PORT, () => {
