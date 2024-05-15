@@ -23,6 +23,10 @@ const userSchema = mongoose.Schema(
       publicId: String,
       url: String,
     },
+    bio: {
+      type: String,
+      required: true,
+    },
 
     followers: [
       {

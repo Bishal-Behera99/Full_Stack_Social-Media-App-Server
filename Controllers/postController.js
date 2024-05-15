@@ -2,14 +2,15 @@ const { success, error } = require("../utils/responseWrapper");
 const Post = require("../models/Post");
 const User = require("../models/User");
 const { post } = require("../routers/authrouter");
-const getMyPostsController = async (req, res) => {
-  try {
-    console.log("in post", req._id);
-    return res.send(success(200, "my posts"));
-  } catch (error) {
-    console.log(error);
-  }
-};
+
+// const getMyPostsController = async (req, res) => {
+//   try {
+//     console.log("in post", req._id);
+//     return res.send(success(200, "my posts"));
+//   } catch (error) {
+//     console.log(error);
+//   }
+// };
 
 const createPostController = async (req, res) => {
   try {
@@ -104,7 +105,6 @@ const deletepostController = async (req, res) => {
 };
 
 module.exports = {
-  getMyPostsController,
   createPostController,
   likeunlikeController,
   updatePostController,

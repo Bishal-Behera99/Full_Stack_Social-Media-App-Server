@@ -2,7 +2,7 @@ const Post = require("../models/Post");
 const User = require("../models/User");
 const { use } = require("../routers/authrouter");
 const { success, error } = require("../utils/responseWrapper");
-
+const cloudinary = require("cloudinary").v2;
 const followunfollowcontroller = async (req, res) => {
   try {
     const { followersId } = req.body;
@@ -80,6 +80,37 @@ const getmypostControler = async (req, res) => {
   }
 };
 
+// Update My Profile Controller
+const updateMyProfileController = async (req, res) => {
+  const { userimg, name, bio } = req.body;
+
+  const owner = req._id;
+
+  const user = await User.findById(owner);
+
+  if (name) {
+    user.name = name;
+  }
+
+  if (bio) {
+    user.bio = bio;
+  }
+
+  if (userimg) {
+    const cloudImg = await cloudinary.uploader.upload(userimg, {
+      folder: "ProfileImg2",
+    });
+
+    user.avatar = {
+      url: cloudImg.secure_url,
+      publicId: cloudImg.public_id,
+    };
+  }
+  user.save();
+
+  return res.send(success(200, { user }));
+};
+
 const deleteMyProfileController = async (req, res) => {
   try {
     const curruserId = req._id;
@@ -127,7 +158,19 @@ const deleteMyProfileController = async (req, res) => {
       secure: true,
     });
 
-    res.send(success(200, "User Account Deleted Successfully"));
+    return res.send(success(200, "User Account Deleted Successfully"));
+  } catch (e) {
+    return res.send(error(500, e.message));
+  }
+};
+
+const getMyProfileController = async (req, res) => {
+  try {
+    const curruser = req._id;
+
+    const user = await User.findById(curruser);
+
+    return res.send(success(200, { user }));
   } catch (e) {
     return res.send(error(500, e.message));
   }
@@ -137,4 +180,6 @@ module.exports = {
   getPostOfFollowing,
   getmypostControler,
   deleteMyProfileController,
+  getMyProfileController,
+  updateMyProfileController,
 };

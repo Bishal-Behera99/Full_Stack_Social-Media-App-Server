@@ -2,6 +2,7 @@ const User = require("../models/User");
 const { error, success } = require("../utils/responseWrapper");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+
 const signupController = async (req, res) => {
   try {
     const { name, email, password } = req.body;
@@ -104,7 +105,7 @@ const refreshController = async (req, res) => {
 function generateaccessToken(data) {
   try {
     const token = jwt.sign(data, process.env.ACCESS_TOKEN_KEY, {
-      expiresIn: "1d",
+      expiresIn: "10s",
     });
     return token;
   } catch (e) {

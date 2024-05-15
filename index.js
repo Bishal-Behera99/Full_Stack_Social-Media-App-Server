@@ -7,8 +7,17 @@ const userrouter = require("./routers/userRouter");
 const morgan = require("morgan");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
+const cloudinary = require("cloudinary").v2;
 const app = express();
 dotenv.config("./.env");
+
+// Clodinary configuration
+
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 
 // Middlewares
 app.use(express.json());

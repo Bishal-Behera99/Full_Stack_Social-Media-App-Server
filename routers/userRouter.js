@@ -14,5 +14,15 @@ router.post(
 router.get("/myposts", requiredUser, usercontroller.getmypostControler);
 
 router.post("/deleteuser", usercontroller.deleteMyProfileController);
+router.get(
+  "/getmyProfile",
+  requiredUser,
+  usercontroller.getMyProfileController
+);
 
+router.post(
+  "/updateMyProfile",
+  requiredUser,
+  usercontroller.updateMyProfileController
+);
 module.exports = router;
