@@ -5,6 +5,7 @@ const PostSchema = mongoose.Schema(
     owner: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "user3",
+      required: true,
     },
     image: {
       publicId: String,

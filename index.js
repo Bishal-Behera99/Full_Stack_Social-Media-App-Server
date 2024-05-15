@@ -8,7 +8,7 @@ const morgan = require("morgan");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const cloudinary = require("cloudinary").v2;
-const app = express();
+const bodyParser = require("body-parser");
 dotenv.config("./.env");
 
 // Clodinary configuration
@@ -20,8 +20,20 @@ cloudinary.config({
 });
 
 // Middlewares
-app.use(express.json());
+const app = express();
+
 app.use(morgan("common"));
+
+//
+app.use(bodyParser.json({ limit: "50mb" }));
+app.use(
+  bodyParser.urlencoded({
+    limit: "50mb",
+    extended: true,
+    parameterLimit: 50000,
+  })
+);
+app.use(express.json());
 app.use(cookieParser());
 app.use(
   cors({
