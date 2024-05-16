@@ -25,4 +25,9 @@ router.post(
   requiredUser,
   usercontroller.updateMyProfileController
 );
+router.post(
+  "/getuserprofile",
+  requiredUser,
+  usercontroller.getUserProfileController
+);
 module.exports = router;
