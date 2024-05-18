@@ -195,11 +195,40 @@ const getUserProfileController = async (req, res) => {
       .map((item) => mapPostOutput(item, ownerId))
       .reverse();
 
-    await user.save();
-
     return res.send(success(200, { ...user._doc, posts }));
   } catch (e) {
     // console.log(e);
+    return res.send(error(500, e.message));
+  }
+};
+
+const getFeedDataController = async (req, res) => {
+  try {
+    const curruserId = req._id;
+
+    const curruser = await User.findById(curruserId).populate("followings");
+
+    const fullposts = await Post.find({
+      owner: {
+        $in: curruser.followings,
+      },
+    }).populate("owner");
+
+    const posts = fullposts
+      .map((item) => mapPostOutput(item, req._id))
+      .reverse();
+
+    curruser.posts = fullposts;
+    const followingsId = curruser.followings.map((items) => items._id);
+
+    const suggestions = await User.find({
+      _id: {
+        $nin: followingsId,
+      },
+    });
+
+    return res.send(success(200, { ...curruser._doc, suggestions, posts }));
+  } catch (e) {
     return res.send(error(500, e.message));
   }
 };
@@ -211,4 +240,5 @@ module.exports = {
   getMyProfileController,
   updateMyProfileController,
   getUserProfileController,
+  getFeedDataController,
 };

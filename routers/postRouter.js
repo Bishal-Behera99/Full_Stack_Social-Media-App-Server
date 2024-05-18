@@ -10,4 +10,6 @@ router.post("/likeunlike", requiredUser, postController.likeunlikeController);
 router.post("/updatepost", requiredUser, postController.updatePostController);
 
 router.delete("/delete", requiredUser, postController.deletepostController);
+
+router.post("/comment", requiredUser, postController.addcommentcontroller);
 module.exports = router;

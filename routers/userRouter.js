@@ -13,7 +13,11 @@ router.post(
 );
 router.get("/myposts", requiredUser, usercontroller.getmypostControler);
 
-router.post("/deleteuser", usercontroller.deleteMyProfileController);
+router.post(
+  "/deleteuser",
+  requiredUser,
+  usercontroller.deleteMyProfileController
+);
 router.get(
   "/getmyProfile",
   requiredUser,
@@ -30,4 +34,6 @@ router.post(
   requiredUser,
   usercontroller.getUserProfileController
 );
+
+router.post("/getFeedData", requiredUser, usercontroller.getFeedDataController);
 module.exports = router;

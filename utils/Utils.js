@@ -3,6 +3,7 @@ const mapPostOutput = (post, userId) => {
     _id: post._id,
     caption: post.caption,
     image: post.image,
+    comments: post.comments,
     owner: {
       _id: post.owner._id,
       name: post.owner.name,
