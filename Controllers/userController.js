@@ -9,7 +9,7 @@ const followunfollowcontroller = async (req, res) => {
     const { followersId } = req.body;
     const owner = req._id;
 
-    const userToFollow = await User.findById(followersId);
+    const userToFollow = await User.findById(followersId).populate("posts");
 
     if (!userToFollow) {
       return res.send(error(404, "user to follow not found"));
@@ -29,18 +29,15 @@ const followunfollowcontroller = async (req, res) => {
 
       const followersindex = userToFollow.followers.indexOf(curruser);
 
-      curruser.followers.splice(followersindex, 1);
-      await userToFollow.save();
-      await curruser.save();
-      return res.send(success(200, "user unfollowed"));
+      userToFollow.followers.splice(followersindex, 1);
     } else {
       curruser.followings.push(userToFollow);
 
       userToFollow.followers.push(curruser);
-      await userToFollow.save();
-      await curruser.save();
-      return res.send(success(200, "user followed"));
     }
+    await userToFollow.save();
+    await curruser.save();
+    return res.send(success(200, { user: userToFollow }));
   } catch (e) {
     // console.log(e);
     res.send(error(500, e.message));
@@ -220,7 +217,7 @@ const getFeedDataController = async (req, res) => {
 
     curruser.posts = fullposts;
     const followingsId = curruser.followings.map((items) => items._id);
-
+    followingsId.push(req._id);
     const suggestions = await User.find({
       _id: {
         $nin: followingsId,

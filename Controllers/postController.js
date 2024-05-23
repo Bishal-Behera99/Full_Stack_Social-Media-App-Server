@@ -115,7 +115,7 @@ const addcommentcontroller = async (req, res) => {
     const { postImg, comments } = req.body;
     const curruser = req._id;
     const owner = await User.findById(curruser);
-    const post = await Post.findById(postImg).populate("owner");
+    const post = await Post.findById(postImg);
     if (comments) {
       post.comments.push(comments);
     }
