@@ -96,7 +96,7 @@ const deletepostController = async (req, res) => {
     const post = await Post.findById(postId);
     const curruser = await User.findById(curr);
     if (post.owner.toString() !== curr) {
-      return res.send(error(403, "You cannot deletesomeone else post"));
+      return res.send(error(403, "You cannot deletesomeone post"));
     }
 
     const index = curruser.posts.indexOf(postId);
